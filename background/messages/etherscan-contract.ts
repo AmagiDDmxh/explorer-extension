@@ -4,6 +4,7 @@ import type { PlasmoMessaging } from "@plasmohq/messaging"
 
 import mockExplanation from "~assets/mock-explan.json"
 import mockVulnerability from "~assets/mock-vulner.json"
+import type { Explanation, Vulnerability } from "~lib/types"
 
 interface Response {
   result: {
@@ -18,17 +19,8 @@ const fetchContractSourceCode = async (contractAddress: string) => {
       `https://api.etherscan.io/api?module=contract&action=getsourcecode&address=${contractAddress}&apiKey=73XMSHDYRWBIZJI1EN176ET6PDAMNTGT43`
     )
     .json()) as Response
-
-  if (!json?.result?.[0]?.SwarmSource) {
-    return
-  }
+    
   return json?.result?.[0]?.SourceCode
-}
-
-export type Explanation = {
-  content: string
-  desc: string
-  func: string
 }
 
 const fetchExplanation = async ({
@@ -45,11 +37,6 @@ const fetchExplanation = async ({
     })
     .json()) as { explanation: Explanation[] }
   return data?.explanation
-}
-
-export type Vulnerability = {
-  content: string
-  score: number
 }
 
 const fetchVulnerability = async ({
