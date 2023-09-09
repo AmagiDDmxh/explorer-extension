@@ -4,6 +4,7 @@ import type { PlasmoMessaging } from "@plasmohq/messaging"
 
 import mockExplanation from "~assets/mock-explan.json"
 import mockVulnerability from "~assets/mock-vulner.json"
+import type { Explanation, Vulnerability } from "~lib/types"
 
 interface Response {
   data: {
@@ -23,12 +24,6 @@ const fetchContractSourceCode = async (contractAddress: string) => {
   return json?.data?.source_code
 }
 
-export type Explanation = {
-  content: string
-  desc: string
-  func: string
-}
-
 const fetchExplanation = async ({
   contractContent,
   contractAddress
@@ -43,11 +38,6 @@ const fetchExplanation = async ({
     })
     .json()) as { explanation: Explanation[] }
   return data?.explanation
-}
-
-export type Vulnerability = {
-  content: string
-  score: number
 }
 
 const fetchVulnerability = async ({

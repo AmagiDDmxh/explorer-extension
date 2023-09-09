@@ -19,12 +19,9 @@ import { useStorage } from "@plasmohq/storage/hook"
 
 import mockContractExplanation from "~assets/mock-explan.json"
 import mockContractVulnerability from "~assets/mock-vulner.json"
-import type {
-  Explanation,
-  Vulnerability
-} from "~background/messages/etherscan-contract"
 import type { RiskResult } from "~background/messages/kekkai"
 import { useKekkaiRisk } from "~lib/hooks/useKekkai"
+import type { ContractData, Vulnerability } from "~lib/types"
 
 export const config: PlasmoCSConfig = {
   matches: ["https://etherscan.io/address/*"]
@@ -84,11 +81,6 @@ const calculateScore = (vulners?: Vulnerability[], riskLevel?: string) => {
   )
 
   return score
-}
-
-type ContractData = {
-  explanation: Explanation[]
-  vulnerability: Vulnerability[]
 }
 
 const DEMO_DATA = {
@@ -196,6 +188,8 @@ const ContractPanels = () => {
     .filter((x) => !!x)
 
   const currentContractData = isLoading ? null : storageContractData?.[address]
+  console.log("🚀 ~ file: etherscan-contract-panels.tsx:199 ~ ContractPanels ~ storageContractData:", storageContractData)
+  console.log("🚀 ~ file: etherscan-contract-panels.tsx:199 ~ ContractPanels ~ currentContractData:", currentContractData)
   const isContractVerified = !!currentContractData?.explanation.length || !!risk
   const score = calculateScore(
     currentContractData?.vulnerability,
